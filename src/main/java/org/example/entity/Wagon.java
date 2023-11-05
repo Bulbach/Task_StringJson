@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -14,11 +13,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldNameConstants
-public class Cargo {
+public class Wagon {
 
     private UUID uuid;
-    String invoiceNumber;
-    String cargoName;
-    Double weight;
-    BigDecimal transportationCost;
+    private int wagonNumber;
+    private int loadCapacity;
+    private int yearOfConstruction;
+    private Cargo cargo;
 }
