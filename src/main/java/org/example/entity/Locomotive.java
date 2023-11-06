@@ -18,10 +18,6 @@ public class Locomotive {
     private UUID uuid;
     private String model;
     private String locomotiveNumber;
+    private String typeLocomotive;
 
-    private enum typeLocomotive {
-        PASSENGER,
-        FREIGHT,
-        SHUNTING
-    }
 }
