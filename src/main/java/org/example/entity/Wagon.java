@@ -16,7 +16,7 @@ import java.util.UUID;
 public class Wagon {
 
     private UUID uuid;
-    private int wagonNumber;
+    private String wagonNumber;
     private int loadCapacity;
     private int yearOfConstruction;
     private Cargo cargo;
