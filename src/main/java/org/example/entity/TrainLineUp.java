@@ -6,20 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
 
-import java.util.UUID;
-
+import java.util.Map;
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldNameConstants
-public class Train {
-
-    private UUID uuid;
-    private String trainNumber;
-    private String trainIndex;
-    private Locomotive locomotive;
-    TrainLineUp trainLineUp;
-//    Map<String, Wagon> trainLineup;
+public class TrainLineUp {
+    private Map<String, Wagon> wagons;
 
 }

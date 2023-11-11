@@ -1,7 +1,9 @@
 package org.example.transformation;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Map;
 
 public class TransformationString {
@@ -30,11 +32,15 @@ public class TransformationString {
                     json.append("\"").append(fieldValue).append("\"");
                 } else if (field.getType().isArray()) {
                     json.append(serializeArray(fieldValue));
-                }
-                else if (fieldValue instanceof HashMap<?, ?>) {
-                    json.append(serializeHashMap((HashMap<?, ?>) fieldValue));
-                }
-                else {
+                } else if (field.getType().equals(LocalDate.class)) {
+                    json.append("\"").append(fieldValue.toString()).append("\"");
+                } else if (field.getType().equals(LocalDateTime.class)) {
+                    json.append("\"").append(fieldValue.toString()).append("\"");
+                } else if (fieldValue instanceof Collection<?>) {
+                    json.append(serializeCollection((Collection<?>) fieldValue));
+                } else if (fieldValue instanceof Map<?, ?>) {
+                    json.append(serializeHashMap((Map<?, ?>) fieldValue));
+                } else {
                     json.append(serialize(fieldValue));
                 }
             } else {
@@ -42,7 +48,7 @@ public class TransformationString {
             }
 
             if (i < fields.length - 1) {
-                json.append(", \n");
+                json.append(", \n ");
             }
         }
 
@@ -75,7 +81,7 @@ public class TransformationString {
         return jsonArray.toString();
     }
 
-    private static String serializeHashMap(HashMap<?, ?> hashMap) {
+    private static String serializeHashMap(Map<?, ?> hashMap) {
         StringBuilder jsonArray = new StringBuilder("{");
         int count = 0;
 
@@ -94,8 +100,7 @@ public class TransformationString {
                     jsonArray.append(value);
                 } else if (value.getClass().equals(String.class)) {
                     jsonArray.append("\"").append(value).append("\"");
-                }
-                else {
+                } else {
                     jsonArray.append(serialize(value));
                 }
                 count++;
@@ -108,6 +113,20 @@ public class TransformationString {
 
         jsonArray.append("}");
         return jsonArray.toString();
+    }
+
+    private static String serializeCollection(Collection<?> collection) {
+        StringBuilder json = new StringBuilder("[");
+        int i = 0;
+        for (Object item : collection) {
+            json.append(serialize(item));
+            if (i < collection.size() - 1) {
+                json.append(", ");
+            }
+            i++;
+        }
+        json.append("]");
+        return json.toString();
     }
 }
 
