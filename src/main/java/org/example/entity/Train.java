@@ -19,7 +19,7 @@ public class Train {
     private String trainNumber;
     private String trainIndex;
     private Locomotive locomotive;
-    TrainLineUp trainLineUp;
+    private TrainLineUp trainLineUp;
 //    Map<String, Wagon> trainLineup;
 
 }

@@ -30,16 +30,15 @@ public class TransformationString {
                     json.append(fieldValue);
                 } else if (field.getType().equals(String.class)) {
                     json.append("\"").append(fieldValue).append("\"");
-                } else if (field.getType().isArray()) {
-                    json.append(serializeArray(fieldValue));
-                } else if (field.getType().equals(LocalDate.class)) {
-                    json.append("\"").append(fieldValue.toString()).append("\"");
                 } else if (field.getType().equals(LocalDateTime.class)) {
                     json.append("\"").append(fieldValue.toString()).append("\"");
                 } else if (fieldValue instanceof Collection<?>) {
                     json.append(serializeCollection((Collection<?>) fieldValue));
                 } else if (fieldValue instanceof Map<?, ?>) {
                     json.append(serializeHashMap((Map<?, ?>) fieldValue));
+                } else if (field.getType().isArray()) {
+                    json.append(serializeArray(fieldValue));
+                } else if (field.getType().equals(LocalDate.class)) {
                 } else {
                     json.append(serialize(fieldValue));
                 }
@@ -119,7 +118,12 @@ public class TransformationString {
         StringBuilder json = new StringBuilder("[");
         int i = 0;
         for (Object item : collection) {
-            json.append(serialize(item));
+            if (item.getClass().isPrimitive() || item instanceof Number || item instanceof Boolean) {
+                json.append(item);
+            } else
+            if (item.getClass().equals(String.class)) {
+                json.append("\"").append(item).append("\"");
+            }
             if (i < collection.size() - 1) {
                 json.append(", ");
             }

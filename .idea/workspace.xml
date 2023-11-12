@@ -6,12 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a6482845-3c96-4a86-8491-8971cb03ccbc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/data/TrainDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/data/TrainDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/Locomotive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/Locomotive.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/Train.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/Train.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/mapper/TrainMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/mapper/TrainMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/transformation/TransformationString.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/transformation/TransformationString.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/transformation/Transform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/transformation/Transform.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/transformation/TransformationJson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/transformation/TransformationJson.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -285,7 +281,31 @@
       <option name="project" value="LOCAL" />
       <updated>1699516523831</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="feature/string_json: Transform to Class (кажется получилось, фиксирую состояние) будут правки">
+      <option name="closed" value="true" />
+      <created>1699733134707</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1699733134707</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feature/string_json: Transform to Class (кажется получилось, фиксирую состояние) будут правки">
+      <option name="closed" value="true" />
+      <created>1699733157136</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1699733157136</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feature/string_json: Transform to Class (заработало) сейчас будут правки">
+      <option name="closed" value="true" />
+      <created>1699817111486</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1699817111486</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -310,61 +330,16 @@
     <MESSAGE value="feature/string_json: created class locomotive" />
     <MESSAGE value="feature/string_json: created mappers" />
     <MESSAGE value="feature/string_json: TransformationString( to Json)" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature/string_json: TransformationString( to Json)" />
+    <MESSAGE value="feature/string_json: Transform to Class (кажется получилось, фиксирую состояние) будут правки" />
+    <MESSAGE value="feature/string_json: Transform to Class (заработало) сейчас будут правки" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature/string_json: Transform to Class (заработало) сейчас будут правки" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
-          <line>91</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/transformation/TransformationJson.java</url>
-          <line>17</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/transformation/Transform.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
-          <line>85</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/transformation/Transform.java</url>
-          <line>7</line>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
-          <line>78</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/transformation/Transform.java</url>
-          <line>92</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/transformation/TransformationJson.java</url>
-          <line>11</line>
-          <properties class="org.example.transformation.TransformationJson" method="deserializeObject">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="GradleRunConfiguration">
         <watch expression="replaceAll" />
         <watch expression="clazz" />
+        <watch expression="object" />
       </configuration>
     </watches-manager>
   </component>

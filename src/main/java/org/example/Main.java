@@ -2,7 +2,6 @@ package org.example;
 
 import org.example.data.TrainDto;
 import org.example.data.TrainLineUpDto;
-import org.example.data.WagonDto;
 import org.example.entity.Cargo;
 import org.example.entity.Locomotive;
 import org.example.entity.Train;
@@ -11,12 +10,12 @@ import org.example.entity.Wagon;
 import org.example.mapper.TrainLineUpMapper;
 import org.example.mapper.TrainLineUpMapperImpl;
 import org.example.mapper.TrainMapperImpl;
-import org.example.mapper.WagonMapper;
-import org.example.mapper.WagonMapperImpl;
 import org.example.transformation.Transform;
 import org.example.transformation.TransformationString;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +39,7 @@ public class Main {
                 .yearOfConstruction(2015)
                 .cargo(cargo)
                 .build();
-        Wagon doubleWagon= Wagon.builder()
+        Wagon doubleWagon = Wagon.builder()
                 .wagonNumber("24506345")
                 .loadCapacity(63)
                 .yearOfConstruction(1999)
@@ -50,6 +49,7 @@ public class Main {
                 .model("2ТЭ10У")
                 .locomotiveNumber("0234")
                 .typeLocomotive("Грузовой")
+                .documents(new ArrayList<>(Arrays.asList("Книга машиниста", "Справка о мед.осмотре")))
                 .build();
 
         Map<String, Wagon> line = new HashMap<>();
@@ -71,18 +71,23 @@ public class Main {
 
         TrainMapperImpl trainMapper = new TrainMapperImpl();
         TrainDto trainDto = trainMapper.toDto(train);
-//        System.out.println(trainDto);
+        System.out.println(trainDto);
         String serialized = TransformationString.serialize(trainDto);
-        Transform transform = new Transform(serialized);
+        System.out.println(serialized);
 //        Train train1 = transform.parse(Train.class);
 //        System.out.println(train1);
-        Map<String, Object> objectMap = transform.parse();
-        objectMap.forEach((key,value)-> System.out.println(key + ":" +value));
-//        System.out.println(serialized);
+        Transform transform = new Transform(serialized);
+//        Map<String, Object> objectMap = transform.parse();
+//        objectMap.forEach((key, value) -> System.out.println(key + ":" + value));
 
-        WagonMapper wagonMapper = new WagonMapperImpl();
-        WagonDto wagonDto = wagonMapper.toDto(wagon);
-        String wagTest = TransformationString.serialize(wagonDto);
+//        Object object = transform.deserialize (serialized,Train.class);
+//
+        Object object = transform.deserialize(Train.class);
+        System.out.println(object);
+
+//        WagonMapper wagonMapper = new WagonMapperImpl();
+//        WagonDto wagonDto = wagonMapper.toDto(wagon);
+//        String wagTest = TransformationString.serialize(wagonDto);
 //        System.out.println(wagTest);
 //        LocomotiveMapperImpl locomotiveMapper = new LocomotiveMapperImpl();
 //        LocomotiveDto locomotiveDto = locomotiveMapper.toDto(locomotive);
