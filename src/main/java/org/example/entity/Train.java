@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -20,6 +21,6 @@ public class Train {
     private String trainIndex;
     private Locomotive locomotive;
     private TrainLineUp trainLineUp;
-//    Map<String, Wagon> trainLineup;
 
+    private LocalDateTime departureTime;
 }

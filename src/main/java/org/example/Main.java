@@ -1,19 +1,18 @@
 package org.example;
 
 import org.example.data.TrainDto;
-import org.example.data.TrainLineUpDto;
 import org.example.entity.Cargo;
 import org.example.entity.Locomotive;
 import org.example.entity.Train;
 import org.example.entity.TrainLineUp;
 import org.example.entity.Wagon;
-import org.example.mapper.TrainLineUpMapper;
-import org.example.mapper.TrainLineUpMapperImpl;
 import org.example.mapper.TrainMapperImpl;
 import org.example.transformation.Transform;
 import org.example.transformation.TransformationString;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -59,44 +58,27 @@ public class Main {
         TrainLineUp lineUp = TrainLineUp.builder()
                 .wagons(line)
                 .build();
-        TrainLineUpMapper trainLineUpMapper = new TrainLineUpMapperImpl();
-        TrainLineUpDto lineUpDto = trainLineUpMapper.toDto(lineUp);
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse("2022-12-31T13:00", formatter);
         Train train = Train.builder()
                 .trainNumber("9502ПВЭ")
                 .trainIndex("1550-287-1500")
                 .locomotive(locomotive)
                 .trainLineUp(lineUp)
+                .departureTime(dateTime)
                 .build();
 
         TrainMapperImpl trainMapper = new TrainMapperImpl();
         TrainDto trainDto = trainMapper.toDto(train);
         System.out.println(trainDto);
+
         String serialized = TransformationString.serialize(trainDto);
         System.out.println(serialized);
-//        Train train1 = transform.parse(Train.class);
-//        System.out.println(train1);
-        Transform transform = new Transform(serialized);
-//        Map<String, Object> objectMap = transform.parse();
-//        objectMap.forEach((key, value) -> System.out.println(key + ":" + value));
 
-//        Object object = transform.deserialize (serialized,Train.class);
-//
+        Transform transform = new Transform(serialized);
         Object object = transform.deserialize(Train.class);
         System.out.println(object);
 
-//        WagonMapper wagonMapper = new WagonMapperImpl();
-//        WagonDto wagonDto = wagonMapper.toDto(wagon);
-//        String wagTest = TransformationString.serialize(wagonDto);
-//        System.out.println(wagTest);
-//        LocomotiveMapperImpl locomotiveMapper = new LocomotiveMapperImpl();
-//        LocomotiveDto locomotiveDto = locomotiveMapper.toDto(locomotive);
-//        String likTest = TransformationString.serialize(locomotiveDto);
-//        System.out.println(likTest);
-
-//        Object deserialized = TransformationJson.deserializeObject(serialized, Train.class);
-//        Object deserialized = TransformationJson.deserializeObject(likTest,Locomotive.class);
-//        Object deserialized = TransformationJson.deserializeObject(wagTest, Wagon.class);
-//        System.out.println(deserialized);
     }
 }

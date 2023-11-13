@@ -1,20 +1,32 @@
 package org.example.transformation;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 
 public class TransformationString {
 
     public static String serialize(Object object) {
+        if (object==null){
+            throw new IllegalArgumentException("Object is null");
+        }
         StringBuilder json = new StringBuilder("{");
+            processingClass(object, json);
+        return json.toString();
+    }
 
+    private static void processingClass(Object object, StringBuilder json) {
         Field[] fields = object.getClass().getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
+
             field.setAccessible(true);
+
 
             String fieldName = field.getName();
             Object fieldValue = null;
@@ -25,26 +37,7 @@ public class TransformationString {
             }
 
             json.append("\"").append(fieldName).append("\":");
-            if (fieldValue != null) {
-                if (field.getType().isPrimitive() || fieldValue instanceof Number || fieldValue instanceof Boolean) {
-                    json.append(fieldValue);
-                } else if (field.getType().equals(String.class)) {
-                    json.append("\"").append(fieldValue).append("\"");
-                } else if (field.getType().equals(LocalDateTime.class)) {
-                    json.append("\"").append(fieldValue.toString()).append("\"");
-                } else if (fieldValue instanceof Collection<?>) {
-                    json.append(serializeCollection((Collection<?>) fieldValue));
-                } else if (fieldValue instanceof Map<?, ?>) {
-                    json.append(serializeHashMap((Map<?, ?>) fieldValue));
-                } else if (field.getType().isArray()) {
-                    json.append(serializeArray(fieldValue));
-                } else if (field.getType().equals(LocalDate.class)) {
-                } else {
-                    json.append(serialize(fieldValue));
-                }
-            } else {
-                json.append("null");
-            }
+            processingField(fieldValue, field, json);
 
             if (i < fields.length - 1) {
                 json.append(", \n ");
@@ -52,7 +45,43 @@ public class TransformationString {
         }
 
         json.append("}");
-        return json.toString();
+    }
+
+    private static void processingField(Object fieldValue, Field field, StringBuilder json) {
+        if (fieldValue != null) {
+            if (field.getType().isPrimitive() || fieldValue instanceof Number || fieldValue instanceof Boolean) {
+                json.append(fieldValue);
+            } else if (field.getType().equals(String.class)) {
+                json.append("\"").append(fieldValue).append("\"");
+            }
+            else if (fieldValue instanceof Collection<?>) {
+                json.append(serializeCollection((Collection<?>) fieldValue));
+            }
+            else if (fieldValue instanceof Map<?, ?>) {
+                json.append(serializeHashMap((Map<?, ?>) fieldValue));
+            }
+            else if (field.getType().isArray()) {
+                json.append(serializeArray(fieldValue));
+            } else if (field.getType().equals(LocalDateTime.class)) {
+                json.append("\"").append(((LocalDateTime) fieldValue).toString()).append("\"");
+            } else if (field.getType().equals(LocalDate.class)) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String formattedDate = dateFormat.format(LocalDate.parse(fieldValue.toString()));
+                json.append("\"").append(formattedDate).append("\"");
+            } else if (field.getType().equals(ZonedDateTime.class)) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+                String formattedDate = dateFormat.format(((ZonedDateTime) fieldValue).toInstant());
+                json.append("\"").append(formattedDate).append("\"");
+            } else if (field.getType().equals(Date.class)) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String formattedDate = dateFormat.format((Date) fieldValue);
+                json.append("\"").append(formattedDate).append("\"");
+            } else {
+                json.append(serialize(fieldValue));
+            }
+        } else {
+            json.append("null");
+        }
     }
 
     private static String serializeArray(Object array) {
@@ -81,7 +110,7 @@ public class TransformationString {
     }
 
     private static String serializeHashMap(Map<?, ?> hashMap) {
-        StringBuilder jsonArray = new StringBuilder("{");
+        StringBuilder json = new StringBuilder("{");
         int count = 0;
 
         for (Map.Entry<?, ?> entry : hashMap.entrySet()) {
@@ -90,28 +119,28 @@ public class TransformationString {
 
             if (key != null && value != null) {
                 if (key.getClass().equals(String.class)) {
-                    jsonArray.append("\"").append(key).append("\"");
+                    json.append("\"").append(key).append("\"");
                 } else {
-                    jsonArray.append(serialize(key));
+                    json.append(serialize(key));
                 }
-                jsonArray.append(":");
+                json.append(":");
                 if (value.getClass().isPrimitive() || value instanceof Number || value instanceof Boolean) {
-                    jsonArray.append(value);
+                    json.append(value);
                 } else if (value.getClass().equals(String.class)) {
-                    jsonArray.append("\"").append(value).append("\"");
+                    json.append("\"").append(value).append("\"");
                 } else {
-                    jsonArray.append(serialize(value));
+                    json.append(serialize(value));
                 }
                 count++;
             }
 
             if (count < hashMap.size()) {
-                jsonArray.append(",");
+                json.append(",");
             }
         }
 
-        jsonArray.append("}");
-        return jsonArray.toString();
+        json.append("}");
+        return json.toString();
     }
 
     private static String serializeCollection(Collection<?> collection) {
@@ -120,8 +149,7 @@ public class TransformationString {
         for (Object item : collection) {
             if (item.getClass().isPrimitive() || item instanceof Number || item instanceof Boolean) {
                 json.append(item);
-            } else
-            if (item.getClass().equals(String.class)) {
+            } else if (item.getClass().equals(String.class)) {
                 json.append("\"").append(item).append("\"");
             }
             if (i < collection.size() - 1) {

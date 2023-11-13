@@ -6,8 +6,15 @@ import lombok.experimental.UtilityClass;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 @UtilityClass
@@ -207,6 +214,35 @@ public class TransformationJson {
         } else {
             return value;
         }
+    }
+
+    public static Date parseDate(String dateString) {
+        try {
+            String replaced = dateString.replaceAll("\"", "");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            return formatter.parse(replaced);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static LocalDate parseLocalDate(String dateString) {
+        String replaced = dateString.replaceAll("\"", "");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(replaced, formatter);
+    }
+
+    public static ZonedDateTime parseZonedDateTime(String dateString) {
+        String replaced = dateString.replaceAll("\"", "");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        return ZonedDateTime.parse(replaced, formatter);
+    }
+
+    public static LocalDateTime parseLocalDateTime(String dateString) {
+        String replaced = dateString.replaceAll("\"", "");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        return LocalDateTime.parse(replaced, formatter);
     }
 
 }
